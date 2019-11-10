@@ -15,7 +15,7 @@ class CreateCommerceValuesTable extends Migration
     {
         Schema::create('commerce_values', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name', 5);
+            $table->string('name', 10);
         });
     }
 

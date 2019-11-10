@@ -19,7 +19,7 @@ class CreateCoefficientsTable extends Migration
             $table->unsignedInteger('commerce_value_id');
 
             $table->unsignedInteger('amount');
-            $table->unsignedInteger('percent');
+            $table->float('percent');
 
             $table->timestamps();
 

@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $id
  * @property int $commerce_value_id
  * @property int $amount
- * @property int $percent
+ * @property float $percent
  *
  * Relations:
  * @property CommerceValue $commerceValue
