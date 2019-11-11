@@ -9,6 +9,7 @@ $router->post('login', [
     'uses' => 'Api\AuthController@login',
 ]);
 
-//Route::middleware('auth:api')->get('/user', function (Request $request) {
-//    return $request->user();
-//});
+$router->get('/', [
+    'as' => 'courses',
+    'uses' => 'Api\IndexController@index'
+]);
