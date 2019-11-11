@@ -42,9 +42,8 @@ return [
         ],
 
         'api' => [
-            'driver' => 'token',
+            'driver' => 'passport',
             'provider' => 'users',
-            'hash' => false,
         ],
     ],
 
@@ -98,6 +97,15 @@ return [
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,
+        ],
+    ],
+
+    'passport' => [
+        'grant' => [
+            'password' => [
+                'client_id' => env('AUTH_PASSPORT_PG_CLIENT_ID'),
+                'client_secret' => env('AUTH_PASSPORT_PG_CLIENT_SECRET')
+            ]
         ],
     ],
 
