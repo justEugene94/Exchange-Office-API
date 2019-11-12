@@ -4,13 +4,12 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Coefficient\StoreFormRequest;
+use App\Http\Requests\Api\Coefficient\UpdateFormRequest;
 use App\Http\Resources\Api\CoefficientResource;
 use App\Models\Coefficient;
 use App\Models\User;
 use App\Services\CoefficientService;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class CoefficientsController extends Controller
@@ -39,7 +38,7 @@ class CoefficientsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param StoreFormRequest $request
+     * @param StoreFormRequest   $request
      * @param CoefficientService $coefficientService
      *
      * @return CoefficientResource
@@ -54,16 +53,14 @@ class CoefficientsController extends Controller
         /** @var Coefficient $coefficient */
         $coefficient = $coefficientService->create($request);
 
-        /** @var CoefficientResource $resource */
-        $resource = CoefficientResource::make($coefficient);
-
-        return $resource;
+        return CoefficientResource::make($coefficient);
     }
 
     /**
      * Display the specified resource.
      *
      * @param int $coefficientId
+     *
      * @return CoefficientResource
      * @throws AuthorizationException
      */
@@ -76,32 +73,54 @@ class CoefficientsController extends Controller
         /** @var Coefficient $coefficient */
         $coefficient = Coefficient::query()->with('commerceValue')->findOrFail($coefficientId);
 
-        /** @var CoefficientResource $resource */
-        $resource = CoefficientResource::make($coefficient);
-
-        return $resource;
+        return CoefficientResource::make($coefficient);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param UpdateFormRequest  $request
+     * @param CoefficientService $coefficientService
+     * @param int                $coefficientId
+     *
+     * @return CoefficientResource
+     * @throws AuthorizationException
      */
-    public function update(Request $request, int $id)
+    public function update(UpdateFormRequest $request, CoefficientService $coefficientService, int $coefficientId)
     {
-        //
+        /** @var User $user */
+        $user = Auth::user();
+        $this->authorize('update', [Coefficient::class, $user]);
+
+        /** @var Coefficient $coefficient */
+        $coefficient = Coefficient::query()->findOrFail($coefficientId);
+
+        $coefficient = $coefficientService->update($request, $coefficient);
+
+        return CoefficientResource::make($coefficient);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param CoefficientService $coefficientService
+     * @param int                $coefficientId
+     *
+     * @return void
+     * @throws AuthorizationException
+     * @throws \Exception
      */
-    public function destroy(int $id)
+    public function destroy(CoefficientService $coefficientService, int $coefficientId)
     {
-        //
+        /** @var User $user */
+        $user = Auth::user();
+        $this->authorize('destroy', [Coefficient::class, $user]);
+
+        /** @var Coefficient $coefficient */
+        $coefficient = Coefficient::query()->findOrFail($coefficientId);
+
+        $coefficientService->delete($coefficient);
+
+        return response('Coefficient deleted!', 200);
     }
 }
