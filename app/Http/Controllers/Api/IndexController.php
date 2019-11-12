@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use GuzzleHttp;
 
-class IndexController
+class IndexController extends Controller
 {
     /** @var GuzzleHttp\Client */
     protected $client;

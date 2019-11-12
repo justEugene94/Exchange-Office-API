@@ -13,3 +13,9 @@ $router->get('/', [
     'as' => 'courses',
     'uses' => 'Api\IndexController@index'
 ]);
+
+$router->group(['middleware' => [
+    'auth:api',
+]], function (Router $router) {
+    $router->apiResource('coefficients', 'Api\CoefficientsController');
+});
