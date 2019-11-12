@@ -46,7 +46,7 @@ class CoefficientPolicy
      */
     public function show(User $user, User $targetUser)
     {
-        return true;
+        return $user->id === $targetUser->id;
     }
 
     /**

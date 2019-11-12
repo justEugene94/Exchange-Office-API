@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Coefficient\StoreFormRequest;
 use App\Http\Resources\Api\CoefficientResource;
 use App\Models\Coefficient;
+use App\Services\CoefficientService;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -25,7 +26,7 @@ class CoefficientsController extends Controller
         $this->authorize('list', [Coefficient::class, $user]);
 
         /** @var Coefficient $coefficients */
-        $coefficients = Coefficient::query()->with('commerceValue')->paginate();
+        $coefficients = Coefficient::query()->with('commerceValue')->paginate(10);
 
         /** @var CoefficientResource $resource */
         $resource = CoefficientResource::collection($coefficients);
@@ -36,12 +37,22 @@ class CoefficientsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreFormRequest $request
+     * @param CoefficientService $coefficientService
+     *
+     * @return CoefficientResource
+     * @throws AuthorizationException
      */
-    public function store(StoreFormRequest $request)
+    public function store(StoreFormRequest $request, CoefficientService $coefficientService)
     {
-        //
+        $user = Auth::user();
+        $this->authorize('store', [Coefficient::class, $user]);
+
+        $coefficient = $coefficientService->create($request);
+
+        $resource = CoefficientResource::make($coefficient);
+
+        return $resource;
     }
 
     /**

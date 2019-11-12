@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\Api\Coefficient;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\Api\CoefficientFormRequest;
 
-class StoreFormRequest extends FormRequest
+class StoreFormRequest extends CoefficientFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class StoreFormRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return parent::authorize();
     }
 
     /**
@@ -23,8 +23,14 @@ class StoreFormRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            //
-        ];
+        return parent::rules();
+    }
+
+    /**
+     * @return array
+     */
+    public function getCoefficientData()
+    {
+        return parent::getCoefficientData();
     }
 }
