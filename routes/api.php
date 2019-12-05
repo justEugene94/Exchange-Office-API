@@ -14,6 +14,11 @@ $router->get('/', [
     'uses' => 'Api\IndexController@index',
 ]);
 
+$router->get('currencies', [
+    'as' => 'currencies',
+    'uses' => 'Api\CurrenciesController@index',
+]);
+
 $router->post('purchases', [
     'as'   => 'purchases.store',
     'uses' => 'Api\PurchasesController@store',
