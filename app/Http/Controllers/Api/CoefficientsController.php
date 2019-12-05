@@ -14,6 +14,19 @@ use Illuminate\Support\Facades\Auth;
 
 class CoefficientsController extends Controller
 {
+    /** @var CoefficientService  */
+    protected $coefficientService;
+
+    /**
+     * CoefficientsController constructor.
+     *
+     * @param CoefficientService $coefficientService
+     */
+    public function __construct(CoefficientService $coefficientService)
+    {
+        $this->coefficientService = $coefficientService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -39,19 +52,18 @@ class CoefficientsController extends Controller
      * Store a newly created resource in storage.
      *
      * @param StoreFormRequest   $request
-     * @param CoefficientService $coefficientService
      *
      * @return CoefficientResource
      * @throws AuthorizationException
      */
-    public function store(StoreFormRequest $request, CoefficientService $coefficientService)
+    public function store(StoreFormRequest $request)
     {
         /** @var User $user */
         $user = Auth::user();
         $this->authorize('store', [Coefficient::class, $user]);
 
         /** @var Coefficient $coefficient */
-        $coefficient = $coefficientService->create($request);
+        $coefficient = $this->coefficientService->create($request);
 
         return CoefficientResource::make($coefficient);
     }
@@ -80,13 +92,12 @@ class CoefficientsController extends Controller
      * Update the specified resource in storage.
      *
      * @param UpdateFormRequest  $request
-     * @param CoefficientService $coefficientService
      * @param int                $coefficientId
      *
      * @return CoefficientResource
      * @throws AuthorizationException
      */
-    public function update(UpdateFormRequest $request, CoefficientService $coefficientService, int $coefficientId)
+    public function update(UpdateFormRequest $request, int $coefficientId)
     {
         /** @var User $user */
         $user = Auth::user();
@@ -95,7 +106,7 @@ class CoefficientsController extends Controller
         /** @var Coefficient $coefficient */
         $coefficient = Coefficient::query()->findOrFail($coefficientId);
 
-        $coefficient = $coefficientService->update($request, $coefficient);
+        $coefficient = $this->coefficientService->update($request, $coefficient);
 
         return CoefficientResource::make($coefficient);
     }
@@ -103,14 +114,13 @@ class CoefficientsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param CoefficientService $coefficientService
      * @param int                $coefficientId
      *
      * @return void
      * @throws AuthorizationException
      * @throws \Exception
      */
-    public function destroy(CoefficientService $coefficientService, int $coefficientId)
+    public function destroy(int $coefficientId)
     {
         /** @var User $user */
         $user = Auth::user();
@@ -119,7 +129,7 @@ class CoefficientsController extends Controller
         /** @var Coefficient $coefficient */
         $coefficient = Coefficient::query()->findOrFail($coefficientId);
 
-        $coefficientService->delete($coefficient);
+        $this->coefficientService->delete($coefficient);
 
         return response('Coefficient deleted!', 200);
     }

@@ -26,7 +26,7 @@ class CoefficientFormRequest extends FormRequest
         return [
             'commerce_value_id' => 'required|integer|exists:commerce_values,id',
             'amount'            => 'required|integer',
-            'percent'           => 'required|float',
+            'percent'           => 'required|numeric|between:0,0.99',
         ];
     }
 

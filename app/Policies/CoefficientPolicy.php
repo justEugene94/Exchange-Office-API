@@ -10,16 +10,6 @@ class CoefficientPolicy
     use HandlesAuthorization;
 
     /**
-     * Create a new policy instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
      * @param User $user
      * @param User $targetUser
      * @return bool
