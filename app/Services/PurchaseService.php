@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Currency;
 use App\Models\Customer;
 use App\Models\Purchase;
 use Illuminate\Support\Facades\DB;
@@ -31,5 +32,40 @@ class PurchaseService
         DB::commit();
 
         return $purchase;
+    }
+
+    /**
+     * @param Currency $currency
+     *
+     * @return array
+     */
+    public function getArrayOfBuyAndSaleSums(Currency $currency)
+    {
+        $countBuy = $this->getSum($currency, 'buy');
+
+        $countSale = $this->getSum($currency, 'sale');
+
+        return [
+            'buy'  => $countBuy,
+            'sale' => $countSale,
+        ];
+    }
+
+    /**
+     * @param Currency $currency
+     * @param string $accessor
+     *
+     * @return int
+     */
+    protected function getSum(Currency $currency, string $accessor = 'buy')
+    {
+        if ($accessor == 'sale') {
+            $column = 'currency_id';
+        }
+        else {
+            $column = 'exchange_currency_id';
+        }
+
+        return Purchase::query()->where($column, $currency->id)->sum('value');
     }
 }

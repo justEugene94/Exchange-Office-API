@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -32,5 +33,25 @@ class Coefficient extends Model
     public function commerceValue()
     {
         return $this->belongsTo(CommerceValue::class, 'commerce_value_id', 'id');
+    }
+
+    /**
+     * @param Builder $query
+     *
+     * @return Builder
+     */
+    public function scopeSale(Builder $query)
+    {
+        return $query->where('commerce_value_id', 1);
+    }
+
+    /**
+     * @param Builder $query
+     *
+     * @return Builder
+     */
+    public function scopeBuy(Builder $query)
+    {
+        return $query->where('commerce_value_id', 2);
     }
 }

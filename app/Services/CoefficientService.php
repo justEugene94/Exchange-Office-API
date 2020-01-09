@@ -70,4 +70,15 @@ class CoefficientService
     {
         $coefficient->delete();
     }
+
+    /**
+     * @param int $amountOfPurchases
+     * @param string $accessor
+     *
+     * @return Coefficient
+     */
+    public function getBySumOfPurchaseAmounts(int $amountOfPurchases, string $accessor)
+    {
+        return Coefficient::query()->{$accessor}()->where('amount', '<', $amountOfPurchases)->orderBy('amount', 'desc')->first();
+    }
 }
