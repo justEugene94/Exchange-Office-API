@@ -55,11 +55,13 @@ class IndexController extends Controller
                 if ($coefficientForBuy)
                 {
                     $course['buy'] *= $coefficientForBuy->percent;
+                    $course['buy'] = round($course['buy'], 5);
                 }
 
                 if ($coefficientForSale)
                 {
                     $course['sale'] *= $coefficientForSale->percent;
+                    $course['sale'] = round($course['sale'], 5);
                 }
             }
         }
