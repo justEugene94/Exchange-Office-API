@@ -18,11 +18,17 @@ class CoefficientSeeder extends Seeder
         });
     }
 
+    /**
+     * @param Coefficient $coefficient
+     *
+     * @return void
+     */
     public function save(Coefficient $coefficient)
     {
-        $commerceValue = CommerceValue::query()->inRandomOrder()->firstOrFail();
+        /** @var CommerceValue $commerceValue */
+        $commerceValue = (new CommerceValue)->random();
 
-        $coefficient->commerceValue()->associate($commerceValue);
+        $coefficient->commerce_value_id = $commerceValue->id;
 
         $coefficient->save();
     }

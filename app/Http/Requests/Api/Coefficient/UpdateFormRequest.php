@@ -4,6 +4,11 @@ namespace App\Http\Requests\Api\Coefficient;
 
 use App\Http\Requests\Api\CoefficientFormRequest;
 
+/**
+ * @property int $commerce_value_id
+ * @property int $amount
+ * @property float $percent
+ */
 class UpdateFormRequest extends CoefficientFormRequest
 {
     /**

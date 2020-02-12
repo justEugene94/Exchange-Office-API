@@ -22,10 +22,6 @@ class CreateCoefficientsTable extends Migration
             $table->float('percent');
 
             $table->timestamps();
-
-            $table->foreign('commerce_value_id')
-                ->references('id')
-                ->on('commerce_values');
         });
     }
 

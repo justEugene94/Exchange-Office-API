@@ -19,14 +19,15 @@ class CoefficientService
     {
         $data = $request->getCoefficientData();
 
-        $commerceValueId = $request->input('commerce_value_id');
+        /** @var CommerceValue $commerceValue */
+        $commerceValue = (new CommerceValue)->firstOrFail('id', $request->commerce_value_id);
 
         /** @var Coefficient $coefficient */
         $coefficient = new Coefficient($data);
 
         DB::beginTransaction();
 
-        $coefficient->commerceValue()->associate($commerceValueId);
+        $coefficient->commerce_value_id = $commerceValue->id;
         $coefficient->save();
 
         DB::commit();
@@ -44,15 +45,16 @@ class CoefficientService
     {
         $data = $request->getCoefficientData();
 
-        $commerceValueId = $request->input('commerce_value_id');
+        $commerceValueId = $request->commerce_value_id;
 
         $oldCommerceValue = $coefficient->commerceValue;
 
         DB::beginTransaction();
 
         if ($oldCommerceValue->id !== $commerceValueId) {
-            $newCommerceValue = CommerceValue::query()->findOrFail($commerceValueId);
-            $coefficient->commerceValue()->associate($newCommerceValue)->save();
+            $newCommerceValue = (new CommerceValue)->firstOrFail('id', $commerceValueId);
+            $coefficient->commerce_value_id = $newCommerceValue->id;
+            $coefficient->save();
         }
 
         $coefficient->update($data);

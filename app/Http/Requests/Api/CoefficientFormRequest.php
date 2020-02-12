@@ -4,6 +4,11 @@ namespace App\Http\Requests\Api;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * @property int $commerce_value_id
+ * @property int $amount
+ * @property float $percent
+ */
 class CoefficientFormRequest extends FormRequest
 {
     /**
@@ -24,7 +29,7 @@ class CoefficientFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'commerce_value_id' => 'required|integer|exists:commerce_values,id',
+            'commerce_value_id' => 'required|integer',
             'amount'            => 'required|integer',
             'percent'           => 'required|numeric|between:0,0.99',
         ];
@@ -36,8 +41,8 @@ class CoefficientFormRequest extends FormRequest
     public function getCoefficientData()
     {
         return [
-            'amount'  => $this->input('amount'),
-            'percent' => $this->input('percent'),
+            'amount'  => $this->amount,
+            'percent' => $this->percent,
         ];
     }
 }

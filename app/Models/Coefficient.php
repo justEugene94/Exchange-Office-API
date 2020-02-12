@@ -28,11 +28,11 @@ class Coefficient extends Model
     ];
 
     /**
-     * @return BelongsTo
+     * @return CommerceValue
      */
-    public function commerceValue()
+    public function getCommerceValueAttribute()
     {
-        return $this->belongsTo(CommerceValue::class, 'commerce_value_id', 'id');
+        return (new CommerceValue)->find($this->commerce_value_id);
     }
 
     /**
@@ -42,7 +42,7 @@ class Coefficient extends Model
      */
     public function scopeSale(Builder $query)
     {
-        return $query->where('commerce_value_id', 1);
+        return $query->where('commerce_value_id', CommerceValue::SALE);
     }
 
     /**
@@ -52,6 +52,6 @@ class Coefficient extends Model
      */
     public function scopeBuy(Builder $query)
     {
-        return $query->where('commerce_value_id', 2);
+        return $query->where('commerce_value_id', CommerceValue::BUY);
     }
 }

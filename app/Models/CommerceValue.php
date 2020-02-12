@@ -8,28 +8,36 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 /**
  * @property int $id
  * @property string $name
- *
- * Relations:
- * @property Coefficient[] $coefficients
  */
-class CommerceValue extends Model
+class CommerceValue extends ArrayModel
 {
-    /** @var string  */
-    protected $table = 'commerce_values';
+    /** @var int  */
+    const SALE = 1;
 
-    /** @var bool  */
-    public $timestamps = false;
+    /** @var int  */
+    const BUY = 2;
 
-    /** @var array  */
-    protected $fillable = [
-        'name'
-    ];
+    /** @var int  */
+    const AMOUNT = 3;
 
     /**
-     * @return HasMany
+     * @return array
      */
-    public function coefficients()
+    protected function getData(): array
     {
-        return $this->hasMany(Coefficient::class, 'commerce_value_id', 'id');
+       return [
+           [
+               'id'   => self::SALE,
+               'name' => 'sale'
+           ],
+           [
+               'id'   => self::BUY,
+               'name' => 'buy'
+           ],
+           [
+               'id'   => self::AMOUNT,
+               'name' => 'amount'
+           ],
+       ];
     }
 }
