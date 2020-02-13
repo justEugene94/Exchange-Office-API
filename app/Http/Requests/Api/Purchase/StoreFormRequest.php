@@ -4,6 +4,14 @@ namespace App\Http\Requests\Api\Purchase;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * @property string $first_name
+ * @property string $last_name
+ * @property string $phone_number
+ * @property int    $currency_id
+ * @property int    $exchange_currency_id
+ * @property int    $value
+ */
 class StoreFormRequest extends FormRequest
 {
     /**
@@ -39,7 +47,7 @@ class StoreFormRequest extends FormRequest
     public function getPurchaseData()
     {
         return [
-            'value' => $this->input('value'),
+            'value' => $this->value,
         ];
     }
 
@@ -49,9 +57,9 @@ class StoreFormRequest extends FormRequest
     public function getCustomerData()
     {
         return [
-            'first_name'   => $this->input('first_name'),
-            'last_name'    => $this->input('last_name'),
-            'phone_number' => $this->input('phone_number'),
+            'first_name'   => $this->first_name,
+            'last_name'    => $this->last_name,
+            'phone_number' => $this->phone_number,
         ];
     }
 
@@ -60,7 +68,7 @@ class StoreFormRequest extends FormRequest
      */
     public function getCurrencyId()
     {
-        return $this->input('currency_id');
+        return $this->currency_id;
     }
 
     /**
@@ -68,6 +76,6 @@ class StoreFormRequest extends FormRequest
      */
     public function getExchangeCurrencyId()
     {
-        return $this->input('exchange_currency_id');
+        return $this->exchange_currency_id;
     }
 }
