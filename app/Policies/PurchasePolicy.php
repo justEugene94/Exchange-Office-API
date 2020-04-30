@@ -28,4 +28,14 @@ class PurchasePolicy
     {
         return true;
     }
+
+    /**
+     * @param User $user
+     * @param User $targetUser
+     * @return bool
+     */
+    public function show(User $user, User $targetUser)
+    {
+        return $user->id === $targetUser->id;
+    }
 }

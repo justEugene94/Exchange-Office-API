@@ -33,7 +33,7 @@ class PurchasesController extends Controller
      * @return PurchaseResource
      * @throws AuthorizationException
      */
-    public function index()
+    public function index(): PurchaseResource
     {
         /** @var User $user */
         $user = Auth::user();
@@ -58,7 +58,7 @@ class PurchasesController extends Controller
      * @return PurchaseResource
      * @throws AuthorizationException
      */
-    public function store(StoreFormRequest $request)
+    public function store(StoreFormRequest $request): PurchaseResource
     {
         $this->authorize('store', Purchase::class);
 
@@ -71,6 +71,24 @@ class PurchasesController extends Controller
                                                     $request->getCurrencyId(),
                                                     $request->getExchangeCurrencyId()
         );
+
+        return PurchaseResource::make($purchase);
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return PurchaseResource
+     * @throws AuthorizationException
+     */
+    public function show(int $id): PurchaseResource
+    {
+        /** @var User $user */
+        $user = Auth::user();
+        $this->authorize('show', [Purchase::class, $user]);
+
+        /** @var Purchase $purchase */
+        $purchase = Purchase::query()->findOrFail($id);
 
         return PurchaseResource::make($purchase);
     }

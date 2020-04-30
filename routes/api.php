@@ -28,8 +28,14 @@ $router->group(['middleware' => [
         'auth:api',
     ]], function (Router $router) {
             $router->apiResource('coefficients', 'Api\CoefficientsController');
+
             $router->get('purchases', [
                 'as'   => 'purchases',
                 'uses' => 'Api\PurchasesController@index',
+            ]);
+
+            $router->get('purchases/{id}', [
+                'as'   => 'purchases',
+                'uses' => 'Api\PurchasesController@show',
             ]);
 });
