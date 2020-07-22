@@ -1,0 +1,6 @@
+CREATE DATABASE IF NOT EXISTS `exchanger` ;
+GRANT ALL ON `exchanger`.* TO 'exchanger'@'%' ;
+
+USE exchanger;
+
+FLUSH PRIVILEGES ;
