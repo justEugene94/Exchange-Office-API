@@ -9,9 +9,9 @@ class CustomerService
 {
     /**
      * @param array $customerData
-     * @return Model
+     * @return Customer
      */
-    public function findOrCreate(array $customerData)
+    public function findOrCreate(array $customerData): Customer
     {
         return Customer::query()->firstOrCreate(['phone_number' => $customerData['phone_number']], $customerData);
     }

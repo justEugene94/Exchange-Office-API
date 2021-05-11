@@ -10,6 +10,7 @@ use App\Models\Coefficient;
 use App\Models\User;
 use App\Services\CoefficientService;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class CoefficientsController extends Controller
@@ -33,7 +34,7 @@ class CoefficientsController extends Controller
      * @return CoefficientResource
      * @throws AuthorizationException
      */
-    public function index()
+    public function index(): CoefficientResource
     {
         /** @var User $user */
         $user = Auth::user();
@@ -56,7 +57,7 @@ class CoefficientsController extends Controller
      * @return CoefficientResource
      * @throws AuthorizationException
      */
-    public function store(StoreFormRequest $request)
+    public function store(StoreFormRequest $request): CoefficientResource
     {
         /** @var User $user */
         $user = Auth::user();
@@ -76,7 +77,7 @@ class CoefficientsController extends Controller
      * @return CoefficientResource
      * @throws AuthorizationException
      */
-    public function show(int $coefficientId)
+    public function show(int $coefficientId): CoefficientResource
     {
         /** @var User $user */
         $user = Auth::user();
@@ -97,7 +98,7 @@ class CoefficientsController extends Controller
      * @return CoefficientResource
      * @throws AuthorizationException
      */
-    public function update(UpdateFormRequest $request, int $coefficientId)
+    public function update(UpdateFormRequest $request, int $coefficientId): CoefficientResource
     {
         /** @var User $user */
         $user = Auth::user();
@@ -116,11 +117,11 @@ class CoefficientsController extends Controller
      *
      * @param int                $coefficientId
      *
-     * @return void
+     * @return Response
      * @throws AuthorizationException
      * @throws \Exception
      */
-    public function destroy(int $coefficientId)
+    public function destroy(int $coefficientId): Response
     {
         /** @var User $user */
         $user = Auth::user();

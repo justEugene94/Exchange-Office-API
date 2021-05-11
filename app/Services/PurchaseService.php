@@ -17,9 +17,8 @@ class PurchaseService
      *
      * @return Purchase
      */
-    public function create(Customer $customer, array $purchaseData, int $currencyId, int $exchangeCurrencyId)
+    public function create(Customer $customer, array $purchaseData, int $currencyId, int $exchangeCurrencyId): Purchase
     {
-        /** @var Purchase $purchase */
         $purchase = new Purchase($purchaseData);
 
         DB::beginTransaction();
@@ -39,11 +38,11 @@ class PurchaseService
      *
      * @return array
      */
-    public function getArrayOfBuyAndSaleSums(Currency $currency)
+    public function getArrayOfBuyAndSaleSums(Currency $currency): array
     {
-        $countBuy = $this->getSum($currency, 'buy');
+        $countBuy = $this->getSum($currency);
 
-        $countSale = $this->getSum($currency, 'sale');
+        $countSale = $this->getSum($currency, Currency::ACCESSOR_SALE);
 
         return [
             'buy'  => $countBuy,
@@ -57,9 +56,9 @@ class PurchaseService
      *
      * @return int
      */
-    protected function getSum(Currency $currency, string $accessor = 'buy')
+    protected function getSum(Currency $currency, string $accessor = Currency::ACCESSOR_BUY):array
     {
-        if ($accessor == 'sale') {
+        if ($accessor == Currency::ACCESSOR_SALE) {
             $column = 'currency_id';
         }
         else {

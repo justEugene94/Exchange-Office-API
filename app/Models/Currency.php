@@ -26,6 +26,10 @@ class Currency extends Model
         'name'
     ];
 
+    public const ACCESSOR_BUY = 'buy';
+
+    public const ACCESSOR_SALE = 'sale';
+
     /**
      * @return HasMany
      */

@@ -13,7 +13,7 @@ class CurrenciesController extends Controller
      *
      * @return CurrencyResource
      */
-    public function index()
+    public function index(): CurrencyResource
     {
         /** @var Currency $currencies */
         $currencies = Currency::query()->get();

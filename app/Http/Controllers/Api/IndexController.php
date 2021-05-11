@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Currency;
 use App\Services\CoefficientService;
 use App\Services\CurrencyService;
 use App\Services\PurchaseService;
@@ -13,20 +14,20 @@ class IndexController extends Controller
     /** @var GuzzleHttp\Client */
     protected $client;
 
-    /** @var CurrencyService  */
+    /** @var CurrencyService */
     protected $currencyService;
 
-    /** @var PurchaseService  */
+    /** @var PurchaseService */
     protected $purchaseService;
 
-    /** @var CoefficientService  */
+    /** @var CoefficientService */
     protected $coefficientService;
 
     public function __construct(
-                                GuzzleHttp\Client $client,
-                                CurrencyService $currencyService,
-                                PurchaseService $purchaseService,
-                                CoefficientService $coefficientService
+        GuzzleHttp\Client $client,
+        CurrencyService $currencyService,
+        PurchaseService $purchaseService,
+        CoefficientService $coefficientService
     )
     {
         $this->client = $client;
@@ -48,18 +49,16 @@ class IndexController extends Controller
 
                 $arrayOfBuyAndSalesSums = $this->purchaseService->getArrayOfBuyAndSaleSums($currency);
 
-                $coefficientForBuy  = $this->coefficientService->getBySumOfPurchaseAmounts($arrayOfBuyAndSalesSums['buy'], 'buy');
+                $coefficientForBuy = $this->coefficientService->getBySumOfPurchaseAmounts($arrayOfBuyAndSalesSums['buy'], Currency::ACCESSOR_BUY);
 
-                $coefficientForSale = $this->coefficientService->getBySumOfPurchaseAmounts($arrayOfBuyAndSalesSums['sale'], 'sale');
+                $coefficientForSale = $this->coefficientService->getBySumOfPurchaseAmounts($arrayOfBuyAndSalesSums['sale'], Currency::ACCESSOR_SALE);
 
-                if ($coefficientForBuy)
-                {
+                if ($coefficientForBuy) {
                     $course['buy'] *= $coefficientForBuy->percent;
                     $course['buy'] = round($course['buy'], 5);
                 }
 
-                if ($coefficientForSale)
-                {
+                if ($coefficientForSale) {
                     $course['sale'] *= $coefficientForSale->percent;
                     $course['sale'] = round($course['sale'], 5);
                 }

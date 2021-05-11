@@ -11,7 +11,7 @@ class CurrencyService
      *
      * @return Currency
      */
-    public function get(string $currency)
+    public function get(string $currency): Currency
     {
         /** @var Currency $currency */
         $currency = Currency::query()->where('name', $currency)->firstOrFail();
